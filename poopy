@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <title>No painting allowed</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <style>
+            #canvas{
+            background-color: rgb(255, 255, 255); border-width: 20px; border-style: solid; border-color: black;
+            }
+            body{
+            cursor: grab; text-align: center;
+            }
+        </style>
+    </head>
+    <body style="color: rgb(0, 0, 0);" id="body"></body>
+        <script>
+            var mouseEvent = "empty";
+            var lastposx,lastposy
+
+            canvas = document.getElementById('canvas');
+            ctx = canvas.getcontext("2d");
+
+            color = "black";
+            size = 1;
+
+            canvas.addEventlistener("mousedown",mymousedown);
+            function mymousedown(e){
+                color = document.getElementById("color").value;
+                size = document.getElementById("size").value;
+                mouseEvent = "mousedown"
+            }
+            canvas.addEventlistener("mousedown", mymousedown)
+            function mymousedown(e){
+                currentposx = e.clientX - canvas.offsetLeft;
+                currentposy = e.clientY - canvas.offsetTop;
+                if(mouseEvent == "mouseDown"){
+                    ctx.beginPath();
+                    ctx.strokeStyle = color;
+                   ctx.lineWidth = size
+                    ctx.moveTo(lastposx,lastposy);
+                    ctx.lineTo(currentposx,currentposy);
+                    ctx.stroke();
+                }
+                lastposx = currentposx;
+                lastposy = currentposy;
+            }
+            canvas.addEventlistener("mouseup", mymouseup)
+            function mymouseup(e){
+                mouseEvent = "mouseup";
+            }
+            canvas.addEventlistener("mouseleave", mymouseleave)
+            function mymouseleave(e){
+                mouseEvent = "mouseleave";
+            }
+            var lasttouchx,lasttouchy
+            var width = screen.width;
+
+            newwidth = screen.width - 70;
+            newheight = screen.height - 300;
+            if(width < 992){
+                document.getElementById("canvas").width = newwidth
+                document.getElementById("canvas").height = newheight
+                document.body.style.overflow = "hidden";
+            }
+            canvas.addEventlistener("touchstart",touchstart);
+            function touchstart(e){
+                console.log("touchstart");
+                color = document.getElementById("color").value;
+                size = document.getElementById("size").value;
+                lastposx = e.touches[0].clientX = canvas.offsetLeft;
+                lastposy = e.touches[0].clientY = canvas.offsetTop;
+            }
+            function touchmove(e){
+                currentpostouchx = e.touches[0].clientX = canvas.offsetLeft;
+                currentpostouchy= e.touches[0].clientY = canvas.offsetTop;
+                ctx.beginPath();
+                ctx.strokeStyle = color;
+                ctx.lineWidth = size;
+                ctx.moveTo(lasttouchx, lasttouchy);
+                ctx.lineTo(currentpostouchx, currentpostouchy);
+                ctx.stroke();
+                lastposx = currentpostouchx;
+                lastposy = currentpostouchy;
+            }   
+        </script>
+        <div style="cursor: pointer;">
+            <h1>no paint</h1>
+            <canvas id="canvas" width="500" height="800"></canvas>
+            <br><br>
+            <span>Color - </span>
+            <input type="text" id="color" value="blue">
+            <span>Pen size - </span>
+            <input type="text" id="size" value="5">
+            <button onclick="clearArea();">CLEAR</button>
+        </div>
+    </body>
+</html>
