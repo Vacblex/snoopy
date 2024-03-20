@@ -84,6 +84,9 @@
                 lastposx = currentpostouchx;
                 lastposy = currentpostouchy;
             }   
+            function clearArea(){
+                ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height)
+            }
         </script>
         <div style="cursor: pointer;">
             <h1>no paint</h1>
