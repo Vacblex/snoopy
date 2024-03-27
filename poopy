@@ -19,7 +19,7 @@
             var mouseEvent = "empty";
             var lastposx,lastposy;
 
-            canvas = document.getElementById('canvas');
+            canvas = document.getElementById("canvas");
             ctx = canvas.getcontext("2d");
 
             color = "black";
@@ -27,18 +27,18 @@
 
             canvas.addEventlistener("mousedown",mymousedown);
             function mymousedown(e){
-                color = document.getElementById("color").value;
+                color = document.getElementById("color".value);
                 size = document.getElementById("size").value;
                 mouseEvent = "mousedown";
             }
-            canvas.addEventlistener("mousedown", mymousedown);
+            canvas.addEventlistener("mousemove", mymousemove);
             function mymousedown(e){
                 currentposx = e.clientX - canvas.offsetLeft;
                 currentposy = e.clientY - canvas.offsetTop;
                 if(mouseEvent == "mouseDown"){
                     ctx.beginPath();
                     ctx.strokeStyle = color;
-                   ctx.lineWidth = size;
+                    ctx.lineWidth = size;
                     ctx.moveTo(lastposx,lastposy);
                     ctx.lineTo(currentposx,currentposy);
                     ctx.stroke();
@@ -53,6 +53,9 @@
             canvas.addEventlistener("mouseleave", mymouseleave);
             function mymouseleave(e){
                 mouseEvent = "mouseleave";
+            }
+            function clearArea() {
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
             }
             var lasttouchx,lasttouchy;
             var width = screen.width;
@@ -93,9 +96,9 @@
             <canvas id="canvas" width="500" height="800"></canvas>
             <br><br>
             <span>Color - </span>
-            <input type="text" id="color" value="blue">
+            <input type="text" id="color" value="black">
             <span>Pen size - </span>
-            <input type="text" id="size" value="5">
+            <input type="text" id="size" value="1">
             <button onclick="clearArea();">CLEAR</button>
         </div>
     </body>
